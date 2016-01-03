@@ -62,13 +62,17 @@ ItemPlatform.prototype.getItems = function (callback) {
   }, callback);
 }
 
-ItemPlatform.prototype.deposit = function (trade_url, items, callback) {
+ItemPlatform.prototype.deposit = function (trade_url, items, escrow, callback) {
+  if (typeof escrow == 'function')
+    callback = escrow;
+
   return this._call({
     method: 'post',
     uri: '/deposits',
     params: {
       tradeurl: trade_url,
-      items: items
+      items: items,
+      escrow: typeof escrow == 'function' ? true : escrow
     }
   }, callback);
 }
