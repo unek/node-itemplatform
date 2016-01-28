@@ -1,5 +1,5 @@
 {
-  "name": "node-itemplatform",
+  "name": "itemplatform",
   "version": "0.1.1",
   "description": "js bindings for webmini's itemplatform api",
   "main": "index.js",
@@ -13,11 +13,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/unek/node-tip-bot.git"
+    "url": "git+ssh://git@github.com/unek/node-itemplatform.git"
   },
   "keywords": [
     "itemplatform",
-    "steam",
     "steam",
     "bot",
     "csgo",
@@ -26,7 +25,7 @@
   "author": "unek",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/unek/node-tip-bot/issues"
+    "url": "https://github.com/unek/node-itemplatform/issues"
   },
-  "homepage": "https://github.com/unek/node-tip-bot#readme"
+  "homepage": "https://github.com/unek/node-itemplatform#readme"
 }
