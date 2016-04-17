@@ -60,12 +60,6 @@ ItemPlatform.prototype.getInventory = function (steamid, games, callback) {
   }, callback);
 }
 
-ItemPlatform.prototype.getItems = function (callback) {
-  return this._call({
-    uri: '/items'
-  }, callback);
-}
-
 ItemPlatform.prototype.deposit = function (trade_url, items, escrow, callback) {
   if (typeof escrow == 'function')
     callback = escrow;
