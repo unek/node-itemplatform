@@ -1,6 +1,6 @@
 {
   "name": "itemplatform",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "js bindings for webmini's itemplatform api",
   "main": "index.js",
   "dependencies": {
@@ -18,7 +18,7 @@
   "keywords": [
     "itemplatform",
     "steam",
-    "bot",
+    "steambot",
     "csgo",
     "tf2"
   ],
