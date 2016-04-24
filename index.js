@@ -34,12 +34,16 @@ ItemPlatform.prototype._call = function (options, callback) {
     body: options.method != 'get' ? options.params : undefined,
     qs: options.method == 'get' ? options.params : undefined
   }, function (err, response, body) {
+    if (err) {
+      callback(err);
+      return;
+    }
     if (response.statusCode >= 200 && response.statusCode < 300) {
       callback(null, body);
       return;
     }
 
-    callback(err || new Error(body ? body.message : response.statusCode));
+    callback(new Error(body ? body.message : response.statusCode));
   });
 }
 
