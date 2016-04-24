@@ -34,35 +34,39 @@ ItemPlatform.prototype._call = function (options, callback) {
     body: options.method != 'get' ? options.params : undefined,
     qs: options.method == 'get' ? options.params : undefined
   }, function (err, response, body) {
-    if (err) {
-      callback(err);
-      return;
-    }
     if (response.statusCode >= 200 && response.statusCode < 300) {
       callback(null, body);
       return;
     }
 
-    callback(new Error(body ? body.message : response.statusCode));
+    callback(err || new Error(body ? body.message : response.statusCode));
   });
 }
 
-ItemPlatform.prototype.getInventory = function (steamid, games, callback) {
-  if (typeof games == 'function')
-    callback = games;
+ItemPlatform.prototype.getInventory = function (trade_url, game, extensive, callback) {
+  if (typeof extensive == 'function')
+    callback = extensive;
 
   return this._call({
-    uri: '/items/available',
+    uri: '/external/items',
     params: {
-      steamid: steamid,
-      games: typeof games == 'object' ? games.join(',') : undefined
-    }
+      tradeurl: trade_url,
+      game: game,
+      extensive: typeof extensive !== 'function' ? !!extensive : false
+    },
+    no_account_id: true
   }, callback);
 }
 
-ItemPlatform.prototype.deposit = function (trade_url, items, escrow, callback) {
-  if (typeof escrow == 'function')
-    callback = escrow;
+ItemPlatform.prototype.getItems = function (callback) {
+  return this._call({
+    uri: '/items'
+  }, callback);
+}
+
+ItemPlatform.prototype.deposit = function (trade_url, items, allow_escrow, callback) {
+  if (typeof allow_escrow == 'function')
+    callback = allow_escrow;
 
   return this._call({
     method: 'post',
@@ -70,7 +74,7 @@ ItemPlatform.prototype.deposit = function (trade_url, items, escrow, callback) {
     params: {
       tradeurl: trade_url,
       items: items,
-      escrow: typeof escrow == 'function' ? true : escrow
+      escrow: typeof allow_escrow !== 'function' ? !!allow_escrow : true
     }
   }, callback);
 }
@@ -100,12 +104,6 @@ ItemPlatform.prototype.getWithdrawal = function (id, callback) {
   }, callback);
 }
 
-ItemPlatform.prototype.getItems = function (callback) {
-  return this._call({
-    uri: '/items'
-  }, callback);
-}
-
 ItemPlatform.prototype.webhook = function (webhook_hmac) {
   var self = this;
 
@@ -130,4 +128,3 @@ ItemPlatform.prototype.webhook = function (webhook_hmac) {
     });
   }
 }
-
