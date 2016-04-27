@@ -34,16 +34,22 @@ ItemPlatform.prototype._call = function (options, callback) {
     body: options.method != 'get' ? options.params : undefined,
     qs: options.method == 'get' ? options.params : undefined
   }, function (err, response, body) {
+    // error making request (no connection, etc.)
     if (err) {
       callback(err);
       return;
     }
+
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      callback(null, body);
-      return;
+      // success
+      return callback(null, body);
+    } else {
+      // http error (private inventory, etc.)
+      return callback(new Error(response.statusCode));
     }
 
-    callback(new Error(body ? body.message : response.statusCode));
+    // other errors
+    callback(new Error(body.hasOwnProperty('message') ? body.message : body));
   });
 }
 
