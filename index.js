@@ -40,16 +40,13 @@ ItemPlatform.prototype._call = function (options, callback) {
       return;
     }
 
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      // success
-      return callback(null, body);
-    } else {
-      // http error (private inventory, etc.)
-      return callback(new Error(response.statusCode));
+    if (response.statusCode >= 300) {
+      // api error :(
+      return callback(new Error(body.message || response.statusCode));
     }
 
-    // other errors
-    callback(new Error(body.hasOwnProperty('message') ? body.message : body));
+    // success :)
+    callback(null, body);
   });
 }
 
@@ -135,7 +132,7 @@ ItemPlatform.prototype.webhook = function (webhook_hmac) {
       var data = JSON.parse(body);
 
       self.emit(req.headers['x-webmini-event'], data);
-      
+
       res.end();
     });
   }
