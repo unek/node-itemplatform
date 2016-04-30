@@ -129,12 +129,14 @@ ItemPlatform.prototype.webhook = function (webhook_hmac) {
         hmac.write(body);
         hmac.end();
 
-        if (signature[1] !== hmac.read()) return;
+        if (signature[1] !== hmac.read()) return res.status(403).end();
       }
 
       var data = JSON.parse(body);
 
-      self.emit(req.headers['x-webmini-event'], data)
+      self.emit(req.headers['x-webmini-event'], data);
+      
+      res.end();
     });
   }
 }
