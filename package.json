@@ -1,6 +1,6 @@
 {
   "name": "itemplatform",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "js bindings for webmini's itemplatform api",
   "main": "index.js",
   "dependencies": {
