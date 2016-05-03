@@ -42,7 +42,7 @@ ItemPlatform.prototype._call = function (options, callback) {
 
     if (response.statusCode >= 300) {
       // api error :(
-      return callback(new Error(body.message || response.statusCode));
+      return callback(new Error(body ? body.message : response.statusCode));
     }
 
     // success :)
